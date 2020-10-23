@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Illandril's FoundryVTT Module Stats</title>
+    <style>
+      .repo + .repo {
+        margin-top: 1em;
+      }
+      .repo-title {
+        font-weight: bold;
+      }
+      .release-details {
+        display: grid;
+        grid: auto-flow / 3em 3em 10em;
+        column-gap: 1em;
+      }
+      .release-details .name {
+        padding-left: 0.5em;
+      }
+      .release-details .download-count {
+        text-align: right;
+        font-weight: bold;
+      }
+      .release-details .release-date {
+
+      }
+      .release-details + .release-details {
+        opacity: 0.75;
+      }
+      .release-details + .release-details + .release-details {
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stats"></div>
+    <script>
+      const container = document.getElementById("stats");
+      const repos = [
+        "FoundryVTT-chat-enhancements",
+        "FoundryVTT-hotbar-uses",
+        //"FoundryVTT-inventory-sorter",
+        //"FoundryVTT-npc-quick-actions",
+        "FoundryVTT-sheet5e-lockdown",
+        "FoundryVTT-third-pact",
+        "FoundryVTT-token-hud-scale",
+        "FoundryVTT-token-tooltips"
+      ];
+      const fetchStats = repository => {
+        const display = document.createElement("div");
+        display.classList.add('repo');
+        container.appendChild(display);
+
+        const repoTitle = document.createElement("div");
+        repoTitle.classList.add("repo-title");
+        repoTitle.appendChild(document.createTextNode(repository));
+        display.appendChild(repoTitle);
+        fetch(`https://api.github.com/repos/illandril/${repository}/releases`)
+          .then(response => response.json())
+          .then(data => {
+            data.slice(0,3).forEach(release => {
+              const zip = release.assets.find(
+                asset => asset.content_type === "application/zip"
+              );
+              if (zip) {
+                const releaseDetails = document.createElement("div");
+                releaseDetails.classList.add("release-details");
+                display.appendChild(releaseDetails);
+
+                const releaseName = document.createElement("div");
+                releaseName.classList.add("name");
+                releaseName.appendChild(document.createTextNode(release.name));
+                releaseDetails.appendChild(releaseName);
+
+                const downloadCount = document.createElement("div");
+                downloadCount.classList.add("download-count");
+                downloadCount.appendChild(
+                  document.createTextNode(`${zip.download_count}`)
+                );
+                releaseDetails.appendChild(downloadCount);
+
+                const releaseDate = document.createElement("div");
+                releaseDate.classList.add("date");
+                releaseDate.appendChild(
+                  document.createTextNode(release.published_at.substring(0, 10))
+                );
+                releaseDetails.appendChild(releaseDate);
+              }
+            });
+            console.log(data);
+          });
+      };
+      repos.forEach(fetchStats);
+    </script>
+  </body>
+</html>
