@@ -82,7 +82,7 @@
           .then(data => {
             data.slice(0, 3).forEach(release => {
               const zip = release.assets.find(
-                asset => asset.content_type === "application/zip"
+                asset => asset.name.endsWith('.zip')
               );
               if (zip) {
                 const releaseDetails = document.createElement("div");
