@@ -15,7 +15,7 @@
       }
       .repo-title {
         font-weight: bold;
-        font-size: 1.25em;
+        font-size: 1.5em;
         text-align: center;
       }
       .release-history {
@@ -72,7 +72,7 @@
 
         const repoTitle = document.createElement("div");
         repoTitle.classList.add("repo-title");
-        repoTitle.appendChild(document.createTextNode(repository));
+        repoTitle.appendChild(document.createTextNode(repository.replace('FoundryVTT-', '')));
         display.appendChild(repoTitle);
 
         const releaseHistory = document.createElement("div");
