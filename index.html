@@ -87,7 +87,7 @@
         issuesLink.appendChild(openIssues);
 
         const coreVersion = document.createElement("img");
-        coreVersion.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=Foundry%20Version&query=%24.compatibleCoreVersion&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
+        coreVersion.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=Foundry%20Version&query=%24.compatibility.verified&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
         modContainer.appendChild(coreVersion);
       }
     </script>
