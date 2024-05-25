@@ -1,95 +1,111 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Illandril's FoundryVTT Module Stats</title>
-    <style>
-      html,
-      body {
-        font-size: 14px;
-      }
 
-      #stats {
-        display: grid;
-        grid-template-columns: repeat(2, max-content);
-        grid-gap: 1em;
-      }
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Illandril's FoundryVTT Module Stats</title>
+  <style>
+    html,
+    body {
+      font-size: 0.875rem;
+    }
 
-      #stats > div {
-        padding: 0.5em;
-        text-align: center;
-        line-height: 0;
-        display: inline-block;
-      }
+    #stats {
+      display: grid;
+      grid-template-columns: repeat(7, max-content);
+      grid-gap: 1rem 0.75rem;
+      align-items: center;
+    }
 
-      #stats > div > * {
-        margin: 1px;
-        vertical-align: middle;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="stats"></div>
-    <script>
-      const container = document.getElementById("stats");
-      const modules = [
-        { key: "chat-enhancements" },
-        { key: "grid-labels" },
-        { key: "hotbar-uses" },
-        { key: "inventory-sorter" },
-        { key: "npc-quick-actions" },
-        { key: "sheet-lockdown-worldbuilding" },
-        { key: "sheet5e-lockdown" },
-        { key: "third-pact" },
-        { key: "token-hud-scale" },
-        { key: "token-tooltips" },
-        { key: "turn-marker" },
-      ];
-      const nameParams = `color=4b0000&style=flat-square&cacheSeconds=900`;
-      const commonParams = `color=4b0000&style=flat-square&cacheSeconds=900`;
-      const downloadParams = `color=d41f1f&style=flat-square&cacheSeconds=900`;
-      for (let module of modules) {
-        const modContainer = document.createElement("div");
-        container.appendChild(modContainer);
+    #stats>div {
+      display: contents;
+    }
 
-        const name = document.createElement("img");
-        name.src = `https://img.shields.io/badge/dynamic/json?${nameParams}&label=&query=%24.title&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
-        modContainer.appendChild(name);
+    #stats>div:first-child {
+      font-weight: bold;
+    }
 
-        modContainer.appendChild(document.createElement("br"));
+    #stats img {
+      vertical-align: middle;
+    }
+  </style>
+</head>
 
-        const latestReleaseVersion = document.createElement("img");
-        latestReleaseVersion.src = `https://img.shields.io/github/v/release/illandril/FoundryVTT-${module.key}?${commonParams}&label=`;
-        modContainer.appendChild(latestReleaseVersion);
+<body>
+  <div id="stats">
+    <div>
+      <span>Downloads</span>
+      <span>Forge Installs</span>
+      <span>Last Updated</span>
+      <span>Foundry Version</span>
+      <span>Version</span>
+      <span>Open Issues</span>
+      <span>Name</span>
+    </div>
+  </div>
+  <script>
+    const container = document.getElementById("stats");
+    const modules = [
+      { key: "chat-enhancements" },
+      { key: "grid-labels" },
+      { key: "hotbar-uses" },
+      { key: "inventory-sorter" },
+      { key: "npc-quick-actions" },
+      { key: "sheet-lockdown-worldbuilding" },
+      { key: "sheet5e-lockdown" },
+      { key: "third-pact" },
+      { key: "token-hud-scale" },
+      { key: "token-tooltips" },
+      { key: "turn-marker" },
+    ];
+    const nameParams = `labelColor=520&color=250&style=flat&cacheSeconds=900`;
+    const commonParams = `labelColor=520&color=250&style=flat&cacheSeconds=900`;
+    const downloadParams = `labelColor=520&color=250&style=flat&cacheSeconds=900`;
+    for (let module of modules) {
+      const modContainer = document.createElement("div");
+      container.appendChild(modContainer);
 
-        const latestReleaseDate = document.createElement("img");
-        latestReleaseDate.src = `https://img.shields.io/github/release-date/illandril/FoundryVTT-${module.key}?${commonParams}&label=`;
-        modContainer.appendChild(latestReleaseDate);
+      const latestDownloadCount = document.createElement("img");
+      latestDownloadCount.src = `https://img.shields.io/github/downloads/illandril/FoundryVTT-${module.key}/latest/module.zip?${commonParams}&label=&suffix=x`;
+      modContainer.appendChild(latestDownloadCount);
 
-        modContainer.appendChild(document.createElement("br"));
+      const forgeInstalls = document.createElement("img");
+      forgeInstalls.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=&query=package.installs&url=http%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fillandril-${module.key}&suffix=%25`;
+      modContainer.appendChild(forgeInstalls);
 
-        const latestDownloadCount = document.createElement("img");
-        latestDownloadCount.src = `https://img.shields.io/github/downloads/illandril/FoundryVTT-${module.key}/latest/module.zip?${downloadParams}&label=D&suffix=x`;
-        modContainer.appendChild(latestDownloadCount);
+      const latestReleaseDate = document.createElement("img");
+      latestReleaseDate.src = `https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest&query=%24.published_at&${commonParams}&label=`;
+      modContainer.appendChild(latestReleaseDate);
 
-        const forgeInstalls = document.createElement("img");
-        forgeInstalls.src = `https://img.shields.io/badge/dynamic/json?${downloadParams}&label=Forge%20Installs&query=package.installs&url=http%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fillandril-${module.key}&suffix=%25`;
-        modContainer.appendChild(forgeInstalls);
+      const foundryVersion = document.createElement('span')
+      modContainer.appendChild(foundryVersion);
 
-        modContainer.appendChild(document.createElement("br"));
+      const minVersion = document.createElement("img");
+      minVersion.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=&query=%24.compatibility.minimum&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
+      foundryVersion.appendChild(minVersion);
 
-        const issuesLink = document.createElement("a");
-        issuesLink.href = `https://github.com/illandril/FoundryVTT-${module.key}/issues`;
-        modContainer.appendChild(issuesLink);
+      foundryVersion.appendChild(document.createTextNode(' / '));
+      const coreVersion = document.createElement("img");
+      coreVersion.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=&query=%24.compatibility.verified&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
+      foundryVersion.appendChild(coreVersion);
 
-        const openIssues = document.createElement("img");
-        openIssues.src = `https://img.shields.io/github/issues-raw/illandril/FoundryVTT-${module.key}?${commonParams}&label=Issues`;
-        issuesLink.appendChild(openIssues);
+      const latestReleaseVersion = document.createElement("img");
+      latestReleaseVersion.src = `https://img.shields.io/github/v/release/illandril/FoundryVTT-${module.key}?${commonParams}&label=`;
+      modContainer.appendChild(latestReleaseVersion);
 
-        const coreVersion = document.createElement("img");
-        coreVersion.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=Foundry%20Version&query=%24.compatibility.verified&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
-        modContainer.appendChild(coreVersion);
-      }
-    </script>
-  </body>
+      const issuesLink = document.createElement("a");
+      issuesLink.href = `https://github.com/illandril/FoundryVTT-${module.key}/issues`;
+      modContainer.appendChild(issuesLink);
+
+      const openIssues = document.createElement("img");
+      openIssues.src = `https://img.shields.io/github/issues/illandril/FoundryVTT-${module.key}?${commonParams}&logo=github&label=`;
+      issuesLink.appendChild(openIssues);
+
+      const name = document.createElement("img");
+      name.src = `https://img.shields.io/badge/dynamic/json?${commonParams}&label=&query=%24.title&url=https%3A%2F%2Fgithub.com%2Fillandril%2FFoundryVTT-${module.key}%2Freleases%2Flatest%2Fdownload%2Fmodule.json`;
+      modContainer.appendChild(name);
+    }
+  </script>
+</body>
+
 </html>
